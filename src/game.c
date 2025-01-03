@@ -75,7 +75,12 @@ void update(Game *game)
     // Update last time
     game->lastTime = currentTime;
 
-    printf("Update up\n");
+    static double lastLogTime = 0.0;
+    if (currentTime - lastLogTime >= 1.0)
+    {
+        printf("Update : rotationAngle = %.2f\n", game->rotationAngle);
+        lastLogTime = currentTime;
+    }
 }
 
 /**
@@ -84,11 +89,22 @@ void update(Game *game)
  */
 void draw(Game *game)
 {
-    printf("Drawing\n");
+    // Get current time and calculate time elapsed
+    double currentTime = glfwGetTime();
+
     // Clear color and depth buffers for new frame
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    printf("Drawing Cube\n");
+    // Update last time
+    game->lastTime = currentTime;
+
+    static double lastLogTime = 0.0;
+    if (currentTime - lastLogTime >= 1.0)
+    {
+        printf("Drawing Cube\n");
+        lastLogTime = currentTime;
+    }
+
     glLoadIdentity();                        // Reset modelview matrix
     glRotatef(game->rotationAngle, 0, 1, 1); // Apply rotation around Y and Z axis
     glCallList(game->index);                 // Draw cube using display list
