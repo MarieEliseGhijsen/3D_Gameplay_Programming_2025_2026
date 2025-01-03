@@ -1,7 +1,5 @@
 # OpenGL Cube Project
 
-# OpenGL Cube Project
-
 > **Note:** This project is a port of a previous SFML Starter Kit. This StarterKit uses GLFW as opposed to SFML, providing a lightweight alternative for OpenGL context creation and window management.
 
 This project demonstrates basic OpenGL functionality by rendering and animating a rotating 3D cube. It serves as an introduction to OpenGL programming concepts including display lists, perspective projection, and basic animation.
