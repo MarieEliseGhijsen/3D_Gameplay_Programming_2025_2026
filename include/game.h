@@ -12,17 +12,18 @@
 typedef struct Game
 {
     GLFWwindow *window;  // Pointer to GLFW window
-    int isRunning;       // Game running state flag
+    bool isRunning;      // Game running state flag
     GLuint index;        // Display list index for cube geometry
     double lastTime;     // Time tracking for animation
     float rotationAngle; // Current rotation angle of the cube
 } Game;
 
 // Function prototypes for game lifecycle management
-void initialize(Game *game); // Initialize game state and OpenGL
-void update(Game *game);     // Update game logic
-void draw(Game *game);       // Render the scene
-void run(Game *game);        // Main game loop
-void destroy(Game *game);    // Cleanup resources
+void initialize(Game *game);                      // Initialize game state and OpenGL
+void handleInput(GLFWwindow *window, Game *game); // Handle player input
+void update(Game *game);                          // Update game logic
+void draw(Game *game);                            // Render the scene
+void run(Game *game);                             // Main game loop
+void destroy(Game *game);                         // Cleanup resources
 
 #endif // GAME_H

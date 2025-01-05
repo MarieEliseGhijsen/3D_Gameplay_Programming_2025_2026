@@ -3,6 +3,14 @@
 // Global flag to control update state
 bool updatable = false;
 
+// Global constants
+const int SCREEN_WIDTH = 800;       // Screen Width
+const int SCREEN_HEIGHT = 600;      // Screen Height
+const float ROTATION_SPEED = 45.0f; // Degrees per second
+const float FOV = 45.0f;            // Field of view in degrees
+const float NEAR_PLANE = 1.0f;      // Near clipping plane for the camera
+const float FAR_PLANE = 500.0f;     // Far clipping plane for the camera
+
 /**
  * Initializes the game state and OpenGL settings
  * Sets up projection matrix, creates display lists, and initializes timing
@@ -20,7 +28,7 @@ void initialize(Game *game)
     glLoadIdentity();            // Reset projection matrix
 
     // Set up perspective: 45 Degrees field of view, 4:3 aspect ratio, near=1.0, far=500.0
-    gluPerspective(45.0, 800.0 / 600.0, 1.0, 500.0);
+    gluPerspective(FOV, SCREEN_WIDTH / SCREEN_HEIGHT, NEAR_PLANE, FAR_PLANE);
     glMatrixMode(GL_MODELVIEW); // Switch back to modelview matrix
 
     // Create a new display list for the cube
@@ -54,7 +62,35 @@ void initialize(Game *game)
 }
 
 /**
- * Updates game logic and animation
+ * Handles Game Input
+ */
+void handleInput(GLFWwindow *window, Game *game)
+{
+    // Get current time and calculate time elapsed
+    double currentTime = glfwGetTime();
+    double deltaTime = currentTime - game->lastTime;
+
+    // Y-axis rotation (Left/Right arrows)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->rotationAngle += ROTATION_SPEED * deltaTime; // 45 degrees per second
+    }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->rotationAngle -= ROTATION_SPEED * deltaTime; // 45 degrees per second
+    }
+
+    // Keep rotation angle between 0 and 360 degrees
+    if (game->rotationAngle > 360.0f)
+    {
+        game->rotationAngle -= 360.0f;
+    }
+}
+
+/**
+ * Updates game logic
  * Handles rotation timing and angle calculations
  */
 void update(Game *game)
@@ -62,15 +98,6 @@ void update(Game *game)
     // Get current time and calculate time elapsed
     double currentTime = glfwGetTime();
     double deltaTime = currentTime - game->lastTime;
-
-    // Update rotation continuously using deltaTime
-    game->rotationAngle += 45.0f * deltaTime; // 45 degrees per second
-
-    // Keep rotation angle between 0 and 360 degrees
-    if (game->rotationAngle > 360.0f)
-    {
-        game->rotationAngle -= 360.0f;
-    }
 
     // Update last time
     game->lastTime = currentTime;
@@ -127,7 +154,7 @@ void run(Game *game)
     }
 
     // Create a windowed mode window and its OpenGL context
-    game->window = glfwCreateWindow(800, 600, "OpenGL Cube", NULL, NULL);
+    game->window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW OpenGL Cube", NULL, NULL);
     if (!game->window)
     {
         glfwTerminate();
@@ -144,9 +171,10 @@ void run(Game *game)
     // Main game loop
     while (!glfwWindowShouldClose(game->window))
     {
-        update(game);     // Update game logic
-        draw(game);       // Render frame
-        glfwPollEvents(); // Process window events
+        handleInput(game->window, game); // Handle game input
+        update(game);                    // Update game logic
+        draw(game);                      // Render frame
+        glfwPollEvents();                // Process window events
     }
 
     // Cleanup resources
