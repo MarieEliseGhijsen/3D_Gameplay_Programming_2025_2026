@@ -97,7 +97,6 @@ void update(Game *game)
 {
     // Get current time and calculate time elapsed
     double currentTime = glfwGetTime();
-    double deltaTime = currentTime - game->lastTime;
 
     // Update last time
     game->lastTime = currentTime;
