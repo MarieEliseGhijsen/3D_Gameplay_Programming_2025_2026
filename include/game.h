@@ -1,6 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+#ifdef _WIN32
+    #define CALLBACK __stdcall
+#endif
+
 #include <GLFW/glfw3.h> // GLFW for window management and OpenGL context
 #include <GL/gl.h>      // OpenGL core functionality
 #include <GL/glu.h>     // OpenGL Utility Library for perspective projection
