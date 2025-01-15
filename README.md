@@ -2,14 +2,14 @@
 
 > **Note:** This project is a port of a previous SFML Starter Kit. This StarterKit uses GLFW as opposed to SFML, providing a lightweight alternative for OpenGL context creation and window management.
 
-This project demonstrates basic OpenGL functionality by rendering and animating a rotating 3D cube. It serves as an introduction to OpenGL programming concepts including display lists, perspective projection, and basic animation.
+This project demonstrates basic [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) functionality by rendering and animating a rotating 3D cube. It serves as an introduction to [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) programming concepts including display lists, perspective projection, and basic animation.
 
 ## Project Overview
 
-* Simple OpenGL application demonstrating 3D graphics
+* Simple [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) application demonstrating 3D graphics
 * Features a rotating cube with colored faces
 * Implements basic game loop architecture
-* Uses GLFW for window management and OpenGL context creation
+* Uses GLFW for window management and [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) context creation
 
 ## Prerequisites
 
@@ -118,7 +118,7 @@ sudo dnf install mesa-libGLU-devel
    * Restart MSYS2 terminal
 
 ### Linux
-1. If OpenGL headers are not found:
+1. If [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) headers are not found:
    ```bash
    # Ubuntu/Debian
    sudo apt install mesa-common-dev
@@ -136,16 +136,21 @@ sudo dnf install mesa-libGLU-devel
    ```
 
 ## Known Issues
-* Immediate mode rendering is deprecated in modern OpenGL
-* No error handling for OpenGL functions
+* Immediate mode rendering is deprecated in modern [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/)
+* No error handling for [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) functions
 * Fixed window size (800x600)
 
 ## Future Improvements
-* Implement modern OpenGL practices (VBOs, VAOs, shaders)
+* Implement modern [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/) practices (VBOs, VAOs, shaders)
 * Add texture support
 * Implement camera controls
 * Add more complex animations
 * Include error handling
+
+## Useful Resources
+* [OpenGL](https://registry.khronos.org/OpenGL-Refpages/gl4/)
+* [GLFW](https://www.glfw.org/)
+
 
 ## Contact
 For questions or support, contact:
