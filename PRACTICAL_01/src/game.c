@@ -109,6 +109,16 @@ void handleInput(GLFWwindow *window, Game *game)
         // Update rotation continuously using deltaTime
         game->rotationAngle -= ROTATION_SPEED * deltaTime; // 45 degrees per second
     }
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posY += 5.0f * deltaTime; // 45 degrees per second
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posY -= 5.0f * deltaTime; // 45 degrees per second
+    }
 
     // Keep rotation angle between 0 and 360 degrees
     if (game->rotationAngle > 360.0f)
@@ -160,7 +170,8 @@ void draw(Game *game)
     }
 
     glLoadIdentity();                        // Reset modelview matrix
-    glRotatef(game->rotationAngle, 0, 1, 1); // Apply rotation around Y and Z axis
+	glTranslatef(0.0f, game->posY, -15.0f);
+    glRotatef(game->rotationAngle, 0, 1, 1); // Apply rotation around Y and z
     glCallList(game->index);                 // Draw cube using display list
 
     // Swap front and back buffers to display the rendered frame
