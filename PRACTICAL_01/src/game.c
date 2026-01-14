@@ -51,6 +51,34 @@ void initialize(Game *game)
         glVertex3f(-1.0f, 1.0f, -15.0f);  // Top-left vertex
         glVertex3f(-1.0f, -1.0f, -15.0f); // Bottom-left vertex
         glVertex3f(1.0f, -1.0f, -15.0f);  // Bottom-right vertex
+		
+		// Bottom face of cube (Green)
+        glColor3f(1.0f, 1.0f, 0.0f);      // Set color to green
+        glVertex3f(1.0f, -1.0f, -15.0f);   // Top-right vertex
+        glVertex3f(-1.0f, -1.0f, -15.0f);  // Top-left vertex
+        glVertex3f(-1.0f, -1.0f, -5.0f); // Bottom-left vertex
+        glVertex3f(1.0f, -1.0f, -5.0f);  // Bottom-right vertex
+		
+		// Top face of cube (Green)
+        glColor3f(1.0f, 1.0f, 1.0f);      // Set color to green
+        glVertex3f(1.0f, 1.0f, -5.0f);    // Top-right vertex
+        glVertex3f(-1.0f, 1.0f, -5.0f);   // Top-left vertex
+        glVertex3f(-1.0f, 1.0f, -15.0f);  // Bottom-left vertex
+        glVertex3f(1.0f, 1.0f, -15.0f);   // Bottom-right vertex
+		
+		// Laft face of cube (Green)
+        glColor3f(0.0f, 1.0f, 1.0f);      // Set color to green
+        glVertex3f(-1.0f, 1.0f, -15.0f);   // Top-right vertex
+        glVertex3f(-1.0f, 1.0f, -5.0f);  // Top-left vertex
+        glVertex3f(-1.0f, -1.0f, -5.0f); // Bottom-left vertex
+        glVertex3f(-1.0f, -1.0f, -15.0f);  // Bottom-right vertex
+		
+		// Right face of cube (Green)
+        glColor3f(0.0f, 0.0f, 1.0f);      // Set color to green
+        glVertex3f(1.0f, 1.0f, -5.0f);    // Top-right vertex
+        glVertex3f(1.0f, 1.0f, -15.0f);   // Top-left vertex
+        glVertex3f(1.0f, -1.0f, -15.0f);  // Bottom-left vertex
+        glVertex3f(1.0f, -1.0f, -5.0f);   // Bottom-right vertex
 
         // TODO: Add remaining faces to complete the cube
     }
