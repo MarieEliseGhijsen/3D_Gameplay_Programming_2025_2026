@@ -20,6 +20,10 @@ typedef struct Game
     GLuint index;        // Display list index for cube geometry
     double lastTime;     // Time tracking for animation
     float rotationAngle; // Current rotation angle of the cube
+	
+	float posX;
+	float posY;
+	float posZ;
 } Game;
 
 // Function prototypes for game lifecycle management

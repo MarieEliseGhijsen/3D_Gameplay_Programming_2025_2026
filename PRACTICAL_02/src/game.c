@@ -42,9 +42,24 @@ void initialize(Game *game)
 	glBegin(GL_TRIANGLES);
 	{
 		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.0, 2.0, -5.0);
-		glVertex3f(-2.0, -2.0, -5.0);
-		glVertex3f(2.0, -2.0, -5.0);
+		glVertex3f(0.0, 2.0, -15.0);
+		glVertex3f(-2.0, -2.0, -15.0);
+		glVertex3f(2.0, -2.0, -15.0);
+		
+		glColor3f(1.0f, 0.0f, 1.0f);
+		glVertex3f(0.0, 2.0, -15.0);
+		glVertex3f(-2.0, -2.0, -15.0);
+		glVertex3f(0.0, 0.0, -20.0);
+		
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glVertex3f(0.0, 2.0, -15.0);
+		glVertex3f(2.0, -2.0, -15.0);
+		glVertex3f(0.0, 0.0, -20.0);
+		
+		glColor3f(1.0f, 1.0f, 0.0f);
+		glVertex3f(0.0, 0.0, -20.0);
+		glVertex3f(-2.0, -2.0, -15.0);
+		glVertex3f(2.0, -2.0, -15.0);
 	}
 
 	glEnd();
@@ -79,6 +94,37 @@ void handleInput(GLFWwindow *window, Game *game)
     if (game->rotationAngle > 360.0f)
     {
         game->rotationAngle -= 360.0f;
+    }
+	
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posX -= 5.0f * deltaTime; // 45 degrees per second
+    }
+    if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posX += 5.0f * deltaTime; // 45 degrees per second
+    }
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posY -= 5.0f * deltaTime; // 45 degrees per second
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posY += 5.0f * deltaTime; // 45 degrees per second
+    }
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posZ -= 5.0f * deltaTime; // 45 degrees per second
+    }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        // Update rotation continuously using deltaTime
+        game->posZ += 5.0f * deltaTime; // 45 degrees per second
     }
 }
 
@@ -125,6 +171,7 @@ void draw(Game *game)
     }
 
     glLoadIdentity();                        // Reset modelview matrix
+	glTranslatef(game->posX, game->posY, game->posZ);
     glRotatef(game->rotationAngle, 0, 1, 1); // Apply rotation around Y and Z axis
     glCallList(game->index);                 // Draw cube using display list
 
