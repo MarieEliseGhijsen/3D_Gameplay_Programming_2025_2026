@@ -62,9 +62,10 @@ void initialize(Game *game)
 		glVertex3f(2.0, -2.0, -15.0);
 	}
 	
+	glEnd();
+	
 	glBegin(GL_QUADS);
     {
-        // Front face of cube (Blue)
         glColor3f(0.0f, 0.0f, 1.0f);     // Set color to blue
         glVertex3f(0.0f, 2.0f, -15.0f);   // Top-right vertex
         glVertex3f(0.0f, 2.0f, -5.0f);  // Top-left vertex
@@ -82,6 +83,18 @@ void initialize(Game *game)
         glVertex3f(-2.0f, -2.0f, -5.0f);  // Top-left vertex
         glVertex3f(2.0f, -2.0f, -5.0f); // Bottom-left vertex
         glVertex3f(2.0f, -2.0f, -15.0f);  // Bottom-right vertex
+	}
+	
+	glEnd();
+	
+	glBegin(GL_POLYGON);
+    {
+		glColor3f(0.0f, 1.0f, 1.0f);
+        glVertex3f(10.0f, -10.0f, -25.0f);
+        glVertex3f(0.0f, -5.0f, -25.0f);
+        glVertex3f(5.0f, 0.0f, -25.0f);
+        glVertex3f(15.0f, 0.0f, -25.0f);
+		glVertex3f(20.0f, -5.0f, -25.0f);
 	}
 
 	glEnd();
