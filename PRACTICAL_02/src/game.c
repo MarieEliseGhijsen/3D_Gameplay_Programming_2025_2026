@@ -61,12 +61,38 @@ void initialize(Game *game)
 		glVertex3f(-2.0, -2.0, -15.0);
 		glVertex3f(2.0, -2.0, -15.0);
 	}
+	
+	glBegin(GL_QUADS);
+    {
+        // Front face of cube (Blue)
+        glColor3f(0.0f, 0.0f, 1.0f);     // Set color to blue
+        glVertex3f(0.0f, 2.0f, -15.0f);   // Top-right vertex
+        glVertex3f(0.0f, 2.0f, -5.0f);  // Top-left vertex
+        glVertex3f(-2.0f, -2.0f, -5.0f); // Bottom-left vertex
+        glVertex3f(-2.0f, -2.0f, -15.0f);  // Bottom-right vertex
+		
+		glColor3f(0.0f, 1.0f, 1.0f);     // Set color to blue
+        glVertex3f(0.0f, 2.0f, -15.0f);   // Top-right vertex
+        glVertex3f(0.0f, 2.0f, -5.0f);  // Top-left vertex
+        glVertex3f(2.0f, -2.0f, -5.0f); // Bottom-left vertex
+        glVertex3f(2.0f, -2.0f, -15.0f);  // Bottom-right vertex
+		
+		glColor3f(0.0f, 1.0f, 0.0f);     // Set color to blue
+        glVertex3f(-2.0f, -2.0f, -15.0f);   // Top-right vertex
+        glVertex3f(-2.0f, -2.0f, -5.0f);  // Top-left vertex
+        glVertex3f(2.0f, -2.0f, -5.0f); // Bottom-left vertex
+        glVertex3f(2.0f, -2.0f, -15.0f);  // Bottom-right vertex
+	}
 
 	glEnd();
 	glEndList();
 
     // Initialize timing for animation
     game->lastTime = glfwGetTime();
+	
+	//game->posX = 0;
+	//game->posY = 0;
+	//game->posZ = 0;
 }
 
 /**
