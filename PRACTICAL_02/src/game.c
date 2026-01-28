@@ -64,6 +64,29 @@ void initialize(Game *game)
 	
 	glEnd();
 	
+	glBegin(GL_LINES);
+	{
+		glColor3f(0.0f, 1.0f, 0.5f);
+		glVertex3f(5.0, 5.0, -5.0);
+		glVertex3f(0.0, 0.0, -5.0);
+	}
+	
+	glEnd();
+	
+	glBegin(GL_POINTS);
+	{
+		glColor3f(1.0f, 1.0f, 0.5f);
+		glVertex3f(6.0, 6.0, -5.0);
+		
+		glColor3f(1.0f, 1.0f, 0.5f);
+		glVertex3f(8.0, 6.0, -5.0);
+		
+		glColor3f(1.0f, 1.0f, 0.5f);
+		glVertex3f(6.0, 8.0, -5.0);
+	}
+	
+	glEnd();
+	
 	glBegin(GL_QUADS);
     {
         glColor3f(0.0f, 0.0f, 1.0f);     // Set color to blue
