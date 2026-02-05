@@ -19,13 +19,17 @@
 #include "./include/matrix3f.h"
 #include "./include/quaternion.h"
 
+#define MAX_VERTICES 128
+
 // Game state structure to maintain all necessary game data
 typedef struct Game
 {
     GLFWwindow *window;  // Pointer to GLFW window
     GLuint index;        // Display list index for cube geometry
     double lastTime;     // Time tracking for animation
-    Vector3f triangle[3];// Triangle data in 3D space
+    
+    Vector3f vertices[MAX_VERTICES];    //all shapes vertices
+    int vertexCount;                    //vertexs used
 } Game;
 
 // Function prototypes for game lifecycle management

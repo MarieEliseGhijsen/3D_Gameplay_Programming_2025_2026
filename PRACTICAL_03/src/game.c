@@ -91,29 +91,74 @@ void initialize(Game *game)
 
     // Init Triangle
     // Set up the triangle vertices
-    initVector3f(&game->triangle[0], 0.0f, 2.0f, -5.0f);
-    initVector3f(&game->triangle[1], -2.0f, -2.0f, -5.0f);
-    initVector3f(&game->triangle[2], 2.0f, -2.0f, -5.0f);
+    game->vertexCount = 0;
 
-    DEBUG_MSG("Initial triangle vertices:\n");
-    printVector3f(&game->triangle[0]);
-    printVector3f(&game->triangle[1]);
-    printVector3f(&game->triangle[2]);
+    //pyramid
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){-2.0f, -2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 2.0f, -2.0f, -15.0f };
+
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){-2.0f, -2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  0.0f, -20.0f };
+
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 2.0f, -2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  0.0f, -20.0f };
+
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f,  0.0f, -20.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){-2.0f, -2.0f, -15.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 2.0f, -2.0f, -15.0f };
+
+    //line
+    game->vertices[game->vertexCount++] = (Vector3f){ 5.0f, 5.0f, -5.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 0.0f, 0.0f, -5.0f };
+
+    //points
+    game->vertices[game->vertexCount++] = (Vector3f){ 6.0f, 6.0f, -5.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 8.0f, 6.0f, -5.0f };
+    game->vertices[game->vertexCount++] = (Vector3f){ 6.0f, 8.0f, -5.0f };
 
     // glNewList(index, GL_COMPILE);
     // Creates a new Display List
     // Initalizes and Compiled to GPU
     // https://www.opengl.org/sdk/docs/man2/xhtml/glNewList.xml
     glNewList(game->index, GL_COMPILE);
+    
+    int i = 0;
+
     glBegin(GL_TRIANGLES);
     {
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(game->triangle[0].x, game->triangle[0].y, game->triangle[0].z);
-        glVertex3f(game->triangle[1].x, game->triangle[1].y, game->triangle[1].z);
-        glVertex3f(game->triangle[2].x, game->triangle[2].y, game->triangle[2].z);
+        for (int j = 0; j < 4; j++)
+        {
+            glColor3f(0.3f, 0.6f, 1.0f);
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+        }
     }
-
     glEnd();
+
+    glBegin(GL_LINES);
+    {
+        glColor3f(0.0f, 1.0f, 0.5f);
+        glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+        glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+    }
+    glEnd();
+
+    glPointSize(5.0f);
+    glBegin(GL_POINTS);
+    {
+        for (int p = 0; p < 3; p++)
+        {
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z);
+            i++;
+        }
+    }
+    glEnd();
+
     glEndList();
 
     // Initialize timing for animation
@@ -125,48 +170,63 @@ void initialize(Game *game)
  */
 void handleInput(GLFWwindow *window, Game *game)
 {
+    bool rotated = false;
+    Matrix3f rotationMatrix;
+
     // Y-axis rotation (Left/Right arrows)
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
     {
-        // Inside your input handling or update logic
-        Matrix3f rotationMatrix = rotateZ(5.0f); // Rotate by 5 degrees
-
-        game->triangle[0] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[0]);
-        game->triangle[1] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[1]);
-        game->triangle[2] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[2]);
-
-        // Debug output to check if the triangle is being rotated
-        DEBUG_MSG("After rotation (anti-clockwise):\n");
-        printVector3f(&game->triangle[0]);
-        printVector3f(&game->triangle[1]);
-        printVector3f(&game->triangle[2]);
+        rotationMatrix = rotateZ(5.0f);
+        rotated = true;
     }
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     {
-        // Inside your input handling or update logic
-        Matrix3f rotationMatrix = rotateZ(-5.0f); // Rotate by -5 degrees
+        rotationMatrix = rotateZ(-5.0f);
+        rotated = true;
+    }
 
-        game->triangle[0] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[0]);
-        game->triangle[1] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[1]);
-        game->triangle[2] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->triangle[2]);
+    if(!rotated) return;
 
-        // Debug output to check if the triangle is being rotated
-        DEBUG_MSG("After rotation (clockwise):\n");
-        printVector3f(&game->triangle[0]);
-        printVector3f(&game->triangle[1]);
-        printVector3f(&game->triangle[2]);
+    for(int i = 0; i < game->vertexCount; i++)
+    {
+        game->vertices[i] = multiplyMatrix3fByVector3f(&rotationMatrix, &game->vertices[i]);
     }
 
     // Recreate display list with updated triangle vertices
     glNewList(game->index, GL_COMPILE);
+    int i = 0;
     glBegin(GL_TRIANGLES);
     {
-        glColor3f(0.0f, 0.0f, 1.0f); // Blue color for triangle
-        glVertex3f(game->triangle[0].x, game->triangle[0].y, game->triangle[0].z);
-        glVertex3f(game->triangle[1].x, game->triangle[1].y, game->triangle[1].z);
-        glVertex3f(game->triangle[2].x, game->triangle[2].y, game->triangle[2].z);
+        for(int j = 0; j < 4; j++)
+        {
+            glColor3f(0.3f, 0.6f, 1.0f);
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+        }    
     }
     glEnd();
+
+    glBegin(GL_LINES);
+    {
+        glColor3f(0.0f, 1.0f, 0.5f);
+        glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+        glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
+    }
+    glEnd();
+
+    glPointSize(5.0f);
+    glBegin(GL_POINTS);
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z);
+            i++;
+        }
+    }
+    glEnd();
+
     glEndList();
 }
 
@@ -185,10 +245,11 @@ void update(Game *game)
     static double lastLogTime = 0.0;
     if (currentTime - lastLogTime >= 1.0)
     {
-        DEBUG_MSG("Triangle vertices:\n");
-        printVector3f(&game->triangle[0]);
-        printVector3f(&game->triangle[1]);
-        printVector3f(&game->triangle[2]);
+        for(int i= 0; i < game->vertexCount; i++)
+        {
+            printVector3f(&game->vertices[i]);
+        }
+
         lastLogTime = currentTime;
     }
 }
