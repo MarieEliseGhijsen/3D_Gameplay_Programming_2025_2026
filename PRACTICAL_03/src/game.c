@@ -131,7 +131,7 @@ void initialize(Game *game)
     {
         for (int j = 0; j < 4; j++)
         {
-            glColor3f(0.3f, 0.6f, 1.0f);
+            glColor3f(0.0f, j, j);
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
@@ -150,9 +150,9 @@ void initialize(Game *game)
     glPointSize(5.0f);
     glBegin(GL_POINTS);
     {
-        for (int p = 0; p < 3; p++)
+        for (int j = 0; j < 3; j++)
         {
-            glColor3f(1.0f, 1.0f, 0.5f);
+            glColor3f(j, 1.0f, 0.5f);
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z);
             i++;
         }
@@ -199,7 +199,7 @@ void handleInput(GLFWwindow *window, Game *game)
     {
         for(int j = 0; j < 4; j++)
         {
-            glColor3f(0.3f, 0.6f, 1.0f);
+            glColor3f(0.0f, j, j);
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z); i++;
@@ -220,7 +220,7 @@ void handleInput(GLFWwindow *window, Game *game)
     {
         for (int j = 0; j < 3; j++)
         {
-            glColor3f(1.0f, 1.0f, 0.5f);
+            glColor3f(j, 1.0f, 0.5f);
             glVertex3f(game->vertices[i].x, game->vertices[i].y, game->vertices[i].z);
             i++;
         }
