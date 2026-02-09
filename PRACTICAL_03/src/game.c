@@ -194,6 +194,32 @@ void handleInput(GLFWwindow *window, Game *game)
     }
 
     if(!rotated) return;
+	
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        //rotationMatrix = rotateZ(5.0f);
+	rotationMatrix = rotateX(angle);
+        rotated = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        //rotationMatrix = rotateZ(-5.0f);
+	rotationMatrix = rotateX(angle);
+        rotated = true;
+    }
+	
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        //rotationMatrix = rotateZ(5.0f);
+	rotationMatrix = rotateY(angle);
+        rotated = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        //rotationMatrix = rotateZ(-5.0f);
+	rotationMatrix = rotateY(angle);
+        rotated = true;
+    }
 
     for(int i = 0; i < game->vertexCount; i++)
     {
