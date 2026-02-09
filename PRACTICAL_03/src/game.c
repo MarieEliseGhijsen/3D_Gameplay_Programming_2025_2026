@@ -170,18 +170,26 @@ void initialize(Game *game)
  */
 void handleInput(GLFWwindow *window, Game *game)
 {
+	double currentTime = glfwGetTime();
+	double deltaTime = currentTime - game->lastTime;
+	game->lastTime = currentTime;
+
+	float angle = ROTATION_SPEED * deltaTime;
+
     bool rotated = false;
     Matrix3f rotationMatrix;
 
     // Y-axis rotation (Left/Right arrows)
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
     {
-        rotationMatrix = rotateZ(5.0f);
+        //rotationMatrix = rotateZ(5.0f);
+	rotationMatrix = rotateZ(angle);
         rotated = true;
     }
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     {
-        rotationMatrix = rotateZ(-5.0f);
+        //rotationMatrix = rotateZ(-5.0f);
+	rotationMatrix = rotateZ(angle);
         rotated = true;
     }
 
