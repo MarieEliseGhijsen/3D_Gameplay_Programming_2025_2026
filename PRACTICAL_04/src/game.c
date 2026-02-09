@@ -71,6 +71,18 @@ unsigned int indices[] = {
     3, 0, 4   // Left face
 };
 
+unsigned int cubeIndices[] = {
+    //base (clockwise order)
+    0, 1, 2,
+    0, 2, 3,
+    
+    //side (all share the apex vertex 4)
+    0, 1, 4,  // Front face
+    1, 2, 4,  // Right face
+    2, 3, 4,  // Back face
+    3, 0, 4   // Left face
+};
+
 /**
  * Initializes the game state and OpenGL settings
  * Sets up projection matrix, creates display lists, and initializes timing
@@ -203,7 +215,8 @@ void draw(Game *game)
 
     // Draw the pyramid using indices
     //glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, &indices);
-	glDrawArrays(GL_QUADS, 0, 24);
+	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_INT, &cubeIndices);
+	//glDrawArrays(GL_QUADS, 0, 24);
 
     // Disable vertex and color arrays
     glDisableClientState(GL_VERTEX_ARRAY);
