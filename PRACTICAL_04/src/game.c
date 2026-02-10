@@ -47,9 +47,38 @@ GLfloat cubeVertices[] = {
 	0.5f, 0.5f, -0.5f, // Top-right 
 	-0.5f, 0.5f, -0.5f, // Top-left 
 	// (Add remaining vertices for left, right, top, and bottom faces) 
+	
+	// Left face 
+	//-0.5f, -0.5f, -0.5f, // Bottom-left 
+	//-0.5f, -0.5f, 0.5f, // Bottom-right 
+	//-0.5f, 0.5f, 0.5f, // Top-right 
+	//-0.5f, 0.5f, -0.5f, // Top-left 
+	
+	// Right face 
+	//0.5f, -0.5f, 0.5f, // Bottom-left 
+	//0.5f, -0.5f, -0.5f, // Bottom-right 
+	//0.5f, 0.5f, -0.5f, // Top-right 
+	//0.5f, 0.5f, 0.5f, // Top-left 
+	
+	// Top face 
+	//-0.5f, 0.5f, 0.5f, // Bottom-left 
+	//0.5f, 0.5f, 0.5f, // Bottom-right 
+	//0.5f, 0.5f, -0.5f, // Top-right 
+	//-0.5f, 0.5f, -0.5f, // Top-left 
+	
+	// Bottom face 
+	//-0.5f, -0.5f, 0.5f, // Bottom-left 
+	//0.5f, -0.5f, 0.5f, // Bottom-right 
+	//0.5f, -0.5f, -0.5f, // Top-right 
+	//-0.5f, -0.5f, -0.5f, // Top-left 
 };
 
 GLfloat cubeColors[] = { 
+1.0f, 0.0f, 0.0f, // Red 
+0.0f, 1.0f, 0.0f, // Green 
+0.0f, 0.0f, 1.0f, // Blue 
+1.0f, 1.0f, 0.0f, // Yellow 
+
 1.0f, 0.0f, 0.0f, // Red 
 0.0f, 1.0f, 0.0f, // Green 
 0.0f, 0.0f, 1.0f, // Blue 
@@ -73,14 +102,13 @@ unsigned int indices[] = {
 
 unsigned int cubeIndices[] = {
     //base (clockwise order)
-    0, 1, 2,
-    0, 2, 3,
+    0, 1, 2, 3,
+    4, 5, 6, 7,
     
-    //side (all share the apex vertex 4)
-    0, 1, 4,  // Front face
-    1, 2, 4,  // Right face
-    2, 3, 4,  // Back face
-    3, 0, 4   // Left face
+    1, 5, 6, 2,
+	0, 4, 7, 3,
+	4, 5, 1, 0,
+	7, 6, 2, 3
 };
 
 /**
@@ -210,8 +238,8 @@ void draw(Game *game)
     glEnableClientState(GL_COLOR_ARRAY);
 
     // Set up vertex and color pointers
-    glVertexPointer(3, GL_FLOAT, 0, cubeVertices);
-    glColorPointer(3, GL_FLOAT, 0, cubeColors);
+    glVertexPointer(3, GL_FLOAT, 0, &cubeVertices);
+    glColorPointer(3, GL_FLOAT, 0, &cubeColors);
 
     // Draw the pyramid using indices
     //glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, &indices);
