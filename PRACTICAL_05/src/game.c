@@ -18,9 +18,9 @@ typedef struct
 GLuint vbo[1];
 GLuint index;
 
-// 5 vertices (Apex and Base of Pyramid)
-Vertex vertex[5];
-GLubyte triangles[18];
+//8 vertices for cube
+Vertex vertex[8]; //8 unique vertices
+GLubyte triangles[36]; // 12 triangles x 3 vertices
 
 void initialize(Game *game)
 {
@@ -59,55 +59,91 @@ void initialize(Game *game)
     game->rotationX = 0.0f;
     game->rotationY = 0.0f;
     game->rotationZ = 0.0f;
+	game->scale = 1.0f;
 
-    // Pyramid vertices
-    // Base vertices
-    vertex[0].coordinate[0] = -1.0f;
-    vertex[0].coordinate[1] = -1.0f;
-    vertex[0].coordinate[2] = -5.0f;
-    vertex[0].color[0] = 0.0f;
-    vertex[0].color[1] = 1.0f;
-    vertex[0].color[2] = 0.0f;
+    //cube vertices
+    //front face
+	vertex[0].coordinate[0] = -0.5f;
+	vertex[0].coordinate[1] = -0.5f;
+	vertex[0].coordinate[2] =  0.5f;
+   	vertex[0].color[0] = 1.0f; 
+	vertex[0].color[1] = 0.0f;
+	vertex[0].color[2] = 0.0f;
 
-    vertex[1].coordinate[0] = 1.0f;
-    vertex[1].coordinate[1] = -1.0f;
-    vertex[1].coordinate[2] = -5.0f;
-    vertex[1].color[0] = 0.2f;
-    vertex[1].color[1] = 0.8f;
-    vertex[1].color[2] = 0.2f;
+	vertex[1].coordinate[0] =  0.5f;
+	vertex[1].coordinate[1] = -0.5f;
+	vertex[1].coordinate[2] =  0.5f;
+	vertex[1].color[0] = 0.0f; 
+	vertex[1].color[1] = 1.0f; 
+	vertex[1].color[2] = 0.0f;
 
-    vertex[2].coordinate[0] = 1.0f;
-    vertex[2].coordinate[1] = -1.0f;
-    vertex[2].coordinate[2] = -3.0f;
-    vertex[2].color[0] = 0.0f;
-    vertex[2].color[1] = 0.5f;
-    vertex[2].color[2] = 0.0f;
+	vertex[2].coordinate[0] =  0.5f;
+	vertex[2].coordinate[1] =  0.5f;
+	vertex[2].coordinate[2] =  0.5f;
+	vertex[2].color[0] = 0.0f; 
+	vertex[2].color[1] = 0.0f; 
+	vertex[2].color[2] = 1.0f;
 
-    vertex[3].coordinate[0] = -1.0f;
-    vertex[3].coordinate[1] = -1.0f;
-    vertex[3].coordinate[2] = -3.0f;
-    vertex[3].color[0] = 0.0f;
-    vertex[3].color[1] = 0.3f;
-    vertex[3].color[2] = 0.0f;
+	vertex[3].coordinate[0] = -0.5f;
+	vertex[3].coordinate[1] =  0.5f;
+	vertex[3].coordinate[2] =  0.5f;
+	vertex[3].color[0] = 1.0f; 
+	vertex[3].color[1] = 1.0f; 
+	vertex[3].color[2] = 0.0f;
 
-    // Apex vertex
-    vertex[4].coordinate[0] = 0.0f;
-    vertex[4].coordinate[1] = 1.0f;
-    vertex[4].coordinate[2] = -4.0f;
-    vertex[4].color[0] = 1.0f;
-    vertex[4].color[1] = 0.0f;
-    vertex[4].color[2] = 0.0f;
+    //back face
+	vertex[4].coordinate[0] = -0.5f;
+	vertex[4].coordinate[1] = -0.5f;
+	vertex[4].coordinate[2] = -0.5f;
+	vertex[4].color[0] = 1.0f; 
+	vertex[4].color[1] = 0.0f; 
+	vertex[4].color[2] = 1.0f;
 
-    // Indices for pyramid triangles
-    // Base triangles
-    triangles[0] = 0; triangles[1] = 1; triangles[2] = 2;
-    triangles[3] = 0; triangles[4] = 2; triangles[5] = 3;
-    
-    // Side triangles
-    triangles[6] = 0; triangles[7] = 1; triangles[8] = 4;
-    triangles[9] = 1; triangles[10] = 2; triangles[11] = 4;
-    triangles[12] = 2; triangles[13] = 3; triangles[14] = 4;
-    triangles[15] = 3; triangles[16] = 0; triangles[17] = 4;
+	vertex[5].coordinate[0] =  0.5f;
+	vertex[5].coordinate[1] = -0.5f;
+	vertex[5].coordinate[2] = -0.5f;
+	vertex[5].color[0] = 0.0f; 
+	vertex[5].color[1] = 1.0f; 
+	vertex[5].color[2] = 1.0f;
+
+	vertex[6].coordinate[0] =  0.5f;
+	vertex[6].coordinate[1] =  0.5f;
+	vertex[6].coordinate[2] = -0.5f;
+	vertex[6].color[0] = 1.0f; 
+	vertex[6].color[1] = 1.0f; 
+	vertex[6].color[2] = 1.0f;
+
+	vertex[7].coordinate[0] = -0.5f;
+	vertex[7].coordinate[1] =  0.5f;
+	vertex[7].coordinate[2] = -0.5f;
+	vertex[7].color[0] = 0.0f; 
+	vertex[7].color[1] = 0.0f;
+	vertex[7].color[2] = 0.0f;
+
+    //indices for cube - 12 triangles
+    //front
+	triangles[0]=0; triangles[1]=1; triangles[2]=2;
+	triangles[3]=0; triangles[4]=2; triangles[5]=3;
+
+    //back
+	triangles[6]=4; triangles[7]=5; triangles[8]=6;
+	triangles[9]=4; triangles[10]=6; triangles[11]=7;
+
+    //left
+	triangles[12]=0; triangles[13]=3; triangles[14]=7;
+	triangles[15]=0; triangles[16]=7; triangles[17]=4;
+
+    //right
+	triangles[18]=1; triangles[19]=5; triangles[20]=6;
+	triangles[21]=1; triangles[22]=6; triangles[23]=2;
+
+    //top
+	triangles[24]=3; triangles[25]=2; triangles[26]=6;
+	triangles[27]=3; triangles[28]=6; triangles[29]=7;
+
+    //bottom
+	triangles[30]=0; triangles[31]=1; triangles[32]=5;
+	triangles[33]=0; triangles[34]=5; triangles[35]=4;
 
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
@@ -115,13 +151,13 @@ void initialize(Game *game)
     // Generate and bind VBO
     glGenBuffers(1, vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 5, vertex, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 8, vertex, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Generate and bind index buffer
     glGenBuffers(1, &index);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 18, triangles, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 36, triangles, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -158,10 +194,36 @@ void handleInput(GLFWwindow *window, Game *game)
         game->rotationX -= ROTATION_SPEED * deltaTime;
     }
 
+	//Z-axis rotation (A/S)
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    	{
+        	game->rotationZ += ROTATION_SPEED * deltaTime;
+    	}
+    	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    	{
+        	game->rotationZ -= ROTATION_SPEED * deltaTime;
+    	}
+
+	//scaling (Q/W)
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    	{
+        	game->scale += 1.0f * deltaTime;
+    	}
+    	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    	{
+        	game->scale -= 1.0f * deltaTime;
+    	}
+
+	if (game->scale < 0.1f)
+	{
+		game->scale = 0.1f;
+	}
+
     // Normalize rotations fmodf is a modulus operation in math.h
     // In VBA example the rotation was clamped with a series of if statements
     game->rotationY = fmodf(game->rotationY, 360.0f);
     game->rotationX = fmodf(game->rotationX, 360.0f);
+	game->rotationZ = fmodf(game->rotationZ, 360.0f);
 }
 
 void update(Game *game)
@@ -196,10 +258,14 @@ void draw(Game *game)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
-    // Translate and rotate
-    glTranslatef(0.0f, 0.0f, -6.0f);
-    glRotatef(game->rotationX, 1.0f, 0.0f, 0.0f);
-    glRotatef(game->rotationY, 0.0f, 1.0f, 0.0f);
+    	//translate and rotate
+    	glTranslatef(0.0f, 0.0f, -6.0f);
+
+    	glRotatef(game->rotationX, 1.0f, 0.0f, 0.0f);
+    	glRotatef(game->rotationY, 0.0f, 1.0f, 0.0f);
+	glRotatef(game->rotationZ, 0.0f, 0.0f, 1.0f);
+
+	glScalef(game->scale, game->scale, game->scale);
 
     // Bind buffers
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
@@ -209,12 +275,12 @@ void draw(Game *game)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
-    // Set up vertex and color pointers
-    glColorPointer(3, GL_FLOAT, sizeof(Vertex), (char *)NULL + 12);
-    glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (char *)NULL + 0);
+    //set up vertex and color pointers
+	glColorPointer(3, GL_FLOAT, sizeof(Vertex), (char *)NULL + 12);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (char *)NULL + 0);
 
-    // Draw the pyramid
-    glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_BYTE, (char *)NULL + 0);
+    //draw the cube
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char *)NULL + 0);
 
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);
