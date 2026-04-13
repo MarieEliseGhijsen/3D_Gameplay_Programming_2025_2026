@@ -1,6 +1,9 @@
 #include <./include/Debug.h>
 #include <./include/Game.h>
 
+#include <fstream>
+#include <sstream>
+
 Game::Game() : window(VideoMode(800, 600), "OpenGL Cube Vertex and Fragment Shaders")
 {
 }
@@ -39,8 +42,8 @@ typedef struct
 	float color[3];
 } Vertex;
 
-Vertex vertex[6];
-GLubyte triangles[6];
+Vertex vertex[8];
+GLubyte triangles[36];
 
 /* Variable to hold the VBO identifier and shader data */
 
@@ -52,6 +55,22 @@ GLuint index,	// Index to draw
 	positionID, // Position ID
 	colorID;	// Color ID
 
+std::string loadShaderFile(const std::string& path)
+{
+    std::ifstream file(path);
+    std::stringstream buffer;
+
+    if (!file.is_open())
+    {
+        std::cout << "ERROR: Cannot open shader file: " << path << std::endl;
+        return "";
+    }
+
+    buffer << file.rdbuf();
+
+    return buffer.str();
+}
+
 void Game::initialize()
 {
 	isRunning = true;
@@ -62,6 +81,7 @@ void Game::initialize()
 	DEBUG_MSG("INIT Glew");
 
 	glewInit();
+	glEnable(GL_DEPTH_TEST);
 
 	/* Vertices counter-clockwise winding */
 
@@ -69,15 +89,34 @@ void Game::initialize()
 
 	vertex[0].coordinate[0] = -0.5f;
 	vertex[0].coordinate[1] = -0.5f;
-	vertex[0].coordinate[2] = 0.0f;
+	vertex[0].coordinate[2] = -0.5f;
 
-	vertex[1].coordinate[0] = -0.5f;
-	vertex[1].coordinate[1] = 0.5f;
-	vertex[1].coordinate[2] = 0.0f;
+	vertex[1].coordinate[0] =  0.5f;
+	vertex[1].coordinate[1] = -0.5f;
+	vertex[1].coordinate[2] = -0.5f;
+	
+	vertex[2].coordinate[0] =  0.5f;
+	vertex[2].coordinate[1] =  0.5f;
+	vertex[2].coordinate[2] = -0.5f;
 
-	vertex[2].coordinate[0] = 0.5f;
-	vertex[2].coordinate[1] = 0.5f;
-	vertex[2].coordinate[2] = 0.0f;
+	vertex[3].coordinate[0] = -0.5f;
+	vertex[3].coordinate[1] =  0.5f;
+	vertex[3].coordinate[2] = -0.5f;
+
+	vertex[4].coordinate[0] = -0.5f;
+	vertex[4].coordinate[1] = -0.5f;
+	vertex[4].coordinate[2] =  0.5f;
+
+	vertex[5].coordinate[0] =  0.5f;
+	vertex[5].coordinate[1] = -0.5f;
+	vertex[5].coordinate[2] =  0.5f;
+
+	vertex[6].coordinate[0] =  0.5f;
+	vertex[6].coordinate[1] =  0.5f;
+	vertex[6].coordinate[2] =  0.5f;
+
+	vertex[7].coordinate[0] = -0.5f;
+	vertex[7].coordinate[1] =  0.5f;	vertex[7].coordinate[2] =  0.5f;
 
 	/* Colors counter-clockwise winding */
 
@@ -95,13 +134,83 @@ void Game::initialize()
 	vertex[2].color[1] = 1.0f;
 	vertex[2].color[2] = 0.0f;
 
+	vertex[3].color[0] = 0.4f;
+	vertex[3].color[1] = 1.0f;
+	vertex[3].color[2] = 0.0f;
+
+	vertex[4].color[0] = 0.5f;
+	vertex[4].color[1] = 1.0f;
+	vertex[4].color[2] = 0.0f;
+
+	vertex[5].color[0] = 0.6f;
+	vertex[5].color[1] = 1.0f;
+	vertex[5].color[2] = 0.0f;
+
+	vertex[6].color[0] = 0.7f;
+	vertex[6].color[1] = 1.0f;
+	vertex[6].color[2] = 0.0f;
+
+	vertex[7].color[0] = 0.8f;
+	vertex[7].color[1] = 1.0f;
+	vertex[7].color[2] = 0.0f;
+
 	/* Vertex Indexes */
 
 	DEBUG_MSG("Setup Indexes");
 
-	triangles[0] = 0;
-	triangles[1] = 1;
-	triangles[2] = 2;
+	//front
+	triangles[0]=0; 
+	triangles[1]=1; 
+	triangles[2]=2;
+
+	triangles[3]=0; 
+	triangles[4]=2; 
+	triangles[5]=3;
+
+	//back
+	triangles[6]=5; 
+	triangles[7]=4; 
+	triangles[8]=7;
+
+	triangles[9]=5; 
+	triangles[10]=7; 
+	triangles[11]=6;
+
+	//left
+	triangles[12]=4; 
+	triangles[13]=0; 
+	triangles[14]=3;
+
+	triangles[15]=4; 
+	triangles[16]=3; 
+	triangles[17]=7;
+
+	//right
+	triangles[18]=1; 
+	triangles[19]=5; 
+	triangles[20]=6;
+
+	triangles[21]=1; 
+	triangles[22]=6; 
+	triangles[23]=2;
+
+	//top
+	triangles[24]=3; 
+	triangles[25]=2; 
+	triangles[26]=6;
+
+	triangles[27]=3;
+	triangles[28]=6; 
+	triangles[29]=7;
+
+	//bottom
+	triangles[30]=4;
+	triangles[31]=5;
+	triangles[32]=1;
+
+	triangles[33]=4;
+	triangles[34]=1;
+	triangles[35]=0;
 
 	DEBUG_MSG("VBO Steps");
 
@@ -112,26 +221,40 @@ void Game::initialize()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	/* Upload vertex data to GPU */
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 3, vertex, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 8, vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &index);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 3, triangles, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 36, triangles, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	DEBUG_MSG("Starting Shaders");
 
 	/* Vertex Shader which would normally be loaded from an external file */
-	const char *vs_src = "#version 400\n\r"
-						 "in vec4 sv_position;"
-						 "in vec4 sv_color;"
-						 "out vec4 color;"
-						 "void main() {"
-						 "	color = sv_color;"
-						 "	gl_Position = sv_position;"
-						 "}"; // Vertex Shader Src
+	//const char *vs_src = "#version 400\n\r"
+	//					 "in vec4 sv_position;"
+	//					 "in vec4 sv_color;"
+	//					 "out vec4 color;"
+	//					 "void main() {"
+	//					 "	color = sv_color;"
+	//					 "	gl_Position = sv_position;"
+	//					 "}"; // Vertex Shader Src
 
+	DEBUG_MSG("Loading shaders from files");
+	
+	std::string vsCode = loadShaderFile("./shaders/vertex.glsl");
+	std::string fsCode = loadShaderFile("./shaders/fragment.glsl");
+	
+	if (vsCode.empty() || fsCode.empty())
+	{
+    		std::cout << "Shader load failed!" << std::endl;
+    		return;
+	}
+	
+	const char* vs_src = vsCode.c_str();
+	const char* fs_src = fsCode.c_str();
+	
 	DEBUG_MSG("Setting Up Vertex Shader");
 
 	vsid = glCreateShader(GL_VERTEX_SHADER);				 // Create Shader and set ID
@@ -152,12 +275,12 @@ void Game::initialize()
 	}
 
 	/* Fragment Shader which would normally be loaded from an external file */
-	const char *fs_src = "#version 400\n\r"
-						 "in vec4 color;"
-						 "out vec4 fColor;"
-						 "void main() {"
-						 "	fColor = color + vec4(1.0f, 0.0f, 0.0f, 1.0f);"
-						 "}"; // Fragment Shader Src
+	//const char *fs_src = "#version 400\n\r"
+	//					 "in vec4 color;"
+	//					 "out vec4 fColor;"
+	//					 "void main() {"
+	//					 "	fColor = color + vec4(1.0f, 0.0f, 0.0f, 1.0f);"
+	//					 "}"; // Fragment Shader Src
 
 	DEBUG_MSG("Setting Up Fragment Shader");
 
@@ -222,6 +345,26 @@ void Game::update()
 	vertex[2].coordinate[1] += -0.0000001f;
 	vertex[2].coordinate[2] += -0.0000001f;
 
+	vertex[3].coordinate[0] += -0.0000001f;
+	vertex[3].coordinate[1] += -0.0000001f;
+	vertex[3].coordinate[2] += -0.0000001f;
+
+	vertex[4].coordinate[0] += -0.0000001f;
+	vertex[4].coordinate[1] += -0.0000001f;
+	vertex[4].coordinate[2] += -0.0000001f;
+
+	vertex[5].coordinate[0] += -0.0000001f;
+	vertex[5].coordinate[1] += -0.0000001f;
+	vertex[5].coordinate[2] += -0.0000001f;
+
+	vertex[6].coordinate[0] += -0.0000001f;
+	vertex[6].coordinate[1] += -0.0000001f;
+	vertex[6].coordinate[2] += -0.0000001f;
+
+	vertex[7].coordinate[0] += -0.0000001f;
+	vertex[7].coordinate[1] += -0.0000001f;
+	vertex[7].coordinate[2] += -0.0000001f;
+
 #if (DEBUG >= 2)
 	DEBUG_MSG("Update up...");
 #endif
@@ -243,7 +386,7 @@ void Game::render()
 
 	/*	As the data positions will be updated by the this program on the
 		CPU bind the updated data to the GPU for drawing	*/
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 3, vertex, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 8, vertex, GL_STATIC_DRAW);
 
 	/*	Draw Triangle from VBO	(set where to start from as VBO can contain
 		model components that 'are' and 'are not' to be drawn )	*/
@@ -251,13 +394,15 @@ void Game::render()
 	// Set pointers for each parameter
 	// https://www.opengl.org/sdk/docs/man4/html/glVertexAttribPointer.xhtml
 	glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	glVertexAttribPointer(colorID, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (float *)NULL + 3);
+	//glVertexAttribPointer(colorID, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (float *)NULL + 3);
+	glVertexAttribPointer(colorID, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (float *)NULL + 3);
+
 
 	// Enable Arrays
 	glEnableVertexAttribArray(positionID);
 	glEnableVertexAttribArray(colorID);
 
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_BYTE, (char *)NULL + 0);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, (char *)NULL + 0);
 
 	window.display();
 }
