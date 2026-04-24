@@ -328,42 +328,123 @@ void Game::initialize()
 	colorID = glGetAttribLocation(progID, "sv_color");
 }
 
+// Initialize a vector with given values
+void initVector3f(Vector3f_ *v, float x, float y, float z) {
+    v->x = x;
+    v->y = y;
+    v->z = z;
+}
+
+// Initialize a matrix with values
+void initMatrix3fWithValues(Matrix3f *m, float A11, float A12, float A13,
+                             float A21, float A22, float A23,
+                             float A31, float A32, float A33) {
+    m->A11 = A11; m->A12 = A12; m->A13 = A13;
+    m->A21 = A21; m->A22 = A22; m->A23 = A23;
+    m->A31 = A31; m->A32 = A32; m->A33 = A33;
+}
+
+// Rotate matrix around Z-axis
+Matrix3f rotateZ(float angle) {
+    float radians = angle * (M_PI / 180.0f);
+    Matrix3f result;
+    initMatrix3fWithValues(&result,
+        cosf(radians), -sinf(radians), 0.0f,
+        sinf(radians), cosf(radians), 0.0f,
+        0.0f, 0.0f, 1.0f
+    );
+    return result;
+}
+
+// Rotate matrix around Y-axis
+Matrix3f rotateY(float angle) {
+    float radians = angle * (M_PI / 180.0f);
+    Matrix3f result;
+    initMatrix3fWithValues(&result,
+        cosf(radians), 0.0f, -sinf(radians),
+        0.0f, 1.0f, 0.0f,
+        sinf(radians), 0.0f, cosf(radians)
+    );
+    return result;
+}
+
+// Matrix multiplication with a Vector3f_
+Vector3f_ multiplyMatrix3fByVector3f(const Matrix3f *m, const Vector3f_ *v) {
+    return (Vector3f_){
+        m->A11 * v->x + m->A12 * v->y + m->A13 * v->z,
+        m->A21 * v->x + m->A22 * v->y + m->A23 * v->z,
+        m->A31 * v->x + m->A32 * v->y + m->A33 * v->z
+    };
+}
+
 void Game::update()
 {
 	elapsed = clock.getElapsedTime();
+	
+	Matrix3f m;
+	m = rotateZ(0.1f);
+	
+	for(int i = 0; i < 8; i++)
+	{
+		Vector3f_ v;
+		
+		initVector3f (&v, vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2]);
+		
+		v = multiplyMatrix3fByVector3f(&m, &v);
+		
+		vertex[i].coordinate[0] = v.x;
+		vertex[i].coordinate[1] = v.y;
+		vertex[i].coordinate[2] = v.z;
+	}
+	
+	Matrix3f mY;
+	mY = rotateY(0.1f);
+	
+	for(int i = 0; i < 8; i++)
+	{
+		Vector3f_ v;
+		
+		initVector3f (&v, vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2]);
+		
+		v = multiplyMatrix3fByVector3f(&mY, &v);
+		
+		vertex[i].coordinate[0] = v.x;
+		vertex[i].coordinate[1] = v.y;
+		vertex[i].coordinate[2] = v.z;
+	}
 
-	// Change vertex data
-	vertex[0].coordinate[0] += -0.0001f;
-	vertex[0].coordinate[1] += -0.0001f;
-	vertex[0].coordinate[2] += -0.0001f;
-
-	vertex[1].coordinate[0] += -0.0001f;
-	vertex[1].coordinate[1] += -0.0001f;
-	vertex[1].coordinate[2] += -0.0001f;
-
-	vertex[2].coordinate[0] += -0.0001f;
-	vertex[2].coordinate[1] += -0.0001f;
-	vertex[2].coordinate[2] += -0.0001f;
-
-	vertex[3].coordinate[0] += -0.0001f;
-	vertex[3].coordinate[1] += -0.0001f;
-	vertex[3].coordinate[2] += -0.0001f;
-
-	vertex[4].coordinate[0] += -0.0001f;
-	vertex[4].coordinate[1] += -0.0001f;
-	vertex[4].coordinate[2] += -0.0001f;
-
-	vertex[5].coordinate[0] += -0.0001f;
-	vertex[5].coordinate[1] += -0.0001f;
-	vertex[5].coordinate[2] += -0.0001f;
-
-	vertex[6].coordinate[0] += -0.0001f;
-	vertex[6].coordinate[1] += -0.0001f;
-	vertex[6].coordinate[2] += -0.0001f;
-
-	vertex[7].coordinate[0] += -0.0001f;
-	vertex[7].coordinate[1] += -0.0001f;
-	vertex[7].coordinate[2] += -0.0001f;
+	//// Change vertex data
+	//vertex[0].coordinate[0] += -0.0001f;
+	//vertex[0].coordinate[1] += -0.0001f;
+	//vertex[0].coordinate[2] += -0.0001f;
+	//
+	//vertex[1].coordinate[0] += -0.0001f;
+	//vertex[1].coordinate[1] += -0.0001f;
+	//vertex[1].coordinate[2] += -0.0001f;
+	//
+	//vertex[2].coordinate[0] += -0.0001f;
+	//vertex[2].coordinate[1] += -0.0001f;
+	//vertex[2].coordinate[2] += -0.0001f;
+	//
+	//vertex[3].coordinate[0] += -0.0001f;
+	//vertex[3].coordinate[1] += -0.0001f;
+	//vertex[3].coordinate[2] += -0.0001f;
+	//
+	//vertex[4].coordinate[0] += -0.0001f;
+	//vertex[4].coordinate[1] += -0.0001f;
+	//vertex[4].coordinate[2] += -0.0001f;
+	//
+	//vertex[5].coordinate[0] += -0.0001f;
+	//vertex[5].coordinate[1] += -0.0001f;
+	//vertex[5].coordinate[2] += -0.0001f;
+	//
+	//vertex[6].coordinate[0] += -0.0001f;
+	//vertex[6].coordinate[1] += -0.0001f;
+	//vertex[6].coordinate[2] += -0.0001f;
+	//
+	//vertex[7].coordinate[0] += -0.0001f;
+	//vertex[7].coordinate[1] += -0.0001f;
+	//vertex[7].coordinate[2] += -0.0001f;
 
 #if (DEBUG >= 2)
 	DEBUG_MSG("Update up...");
