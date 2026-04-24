@@ -333,37 +333,37 @@ void Game::update()
 	elapsed = clock.getElapsedTime();
 
 	// Change vertex data
-	vertex[0].coordinate[0] += -0.0000001f;
-	vertex[0].coordinate[1] += -0.0000001f;
-	vertex[0].coordinate[2] += -0.0000001f;
+	vertex[0].coordinate[0] += -0.0001f;
+	vertex[0].coordinate[1] += -0.0001f;
+	vertex[0].coordinate[2] += -0.0001f;
 
-	vertex[1].coordinate[0] += -0.0000001f;
-	vertex[1].coordinate[1] += -0.0000001f;
-	vertex[1].coordinate[2] += -0.0000001f;
+	vertex[1].coordinate[0] += -0.0001f;
+	vertex[1].coordinate[1] += -0.0001f;
+	vertex[1].coordinate[2] += -0.0001f;
 
-	vertex[2].coordinate[0] += -0.0000001f;
-	vertex[2].coordinate[1] += -0.0000001f;
-	vertex[2].coordinate[2] += -0.0000001f;
+	vertex[2].coordinate[0] += -0.0001f;
+	vertex[2].coordinate[1] += -0.0001f;
+	vertex[2].coordinate[2] += -0.0001f;
 
-	vertex[3].coordinate[0] += -0.0000001f;
-	vertex[3].coordinate[1] += -0.0000001f;
-	vertex[3].coordinate[2] += -0.0000001f;
+	vertex[3].coordinate[0] += -0.0001f;
+	vertex[3].coordinate[1] += -0.0001f;
+	vertex[3].coordinate[2] += -0.0001f;
 
-	vertex[4].coordinate[0] += -0.0000001f;
-	vertex[4].coordinate[1] += -0.0000001f;
-	vertex[4].coordinate[2] += -0.0000001f;
+	vertex[4].coordinate[0] += -0.0001f;
+	vertex[4].coordinate[1] += -0.0001f;
+	vertex[4].coordinate[2] += -0.0001f;
 
-	vertex[5].coordinate[0] += -0.0000001f;
-	vertex[5].coordinate[1] += -0.0000001f;
-	vertex[5].coordinate[2] += -0.0000001f;
+	vertex[5].coordinate[0] += -0.0001f;
+	vertex[5].coordinate[1] += -0.0001f;
+	vertex[5].coordinate[2] += -0.0001f;
 
-	vertex[6].coordinate[0] += -0.0000001f;
-	vertex[6].coordinate[1] += -0.0000001f;
-	vertex[6].coordinate[2] += -0.0000001f;
+	vertex[6].coordinate[0] += -0.0001f;
+	vertex[6].coordinate[1] += -0.0001f;
+	vertex[6].coordinate[2] += -0.0001f;
 
-	vertex[7].coordinate[0] += -0.0000001f;
-	vertex[7].coordinate[1] += -0.0000001f;
-	vertex[7].coordinate[2] += -0.0000001f;
+	vertex[7].coordinate[0] += -0.0001f;
+	vertex[7].coordinate[1] += -0.0001f;
+	vertex[7].coordinate[2] += -0.0001f;
 
 #if (DEBUG >= 2)
 	DEBUG_MSG("Update up...");
