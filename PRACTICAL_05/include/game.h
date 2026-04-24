@@ -22,6 +22,7 @@ typedef struct Game
     float rotationY;    // Current rotation angle of the model
     float rotationX;    // Current rotation angle of the model
     float rotationZ;    // Current rotation angle of the model
+	float scale;
 } Game;
 
 // Function prototypes for game lifecycle management
